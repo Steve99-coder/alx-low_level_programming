@@ -1,21 +1,23 @@
 #include <stdio.h>
-#include <unstd.h>
+#include <unistd.h>
 #include "main.h"
+
 /**
- * main - Entry point
- * prints "_putchar" followed by a new line
- * Return: 0
+ * main - prints _putchar
+ *
+ * Description: prints _putchar
+ *
+ * Return: 0 (Success)
  */
 
 int main(void)
 {
-	char p[] = "_putchar";
+	char text[9] = "_putchar";
 	int i = 0;
 
-	while (p[i] != '\0')
+	for (i = 0; i < 8; i++)
 	{
-		_putchar(p[i]);
-		i++;
+		_putchar(text[i]);
 	}
 	_putchar('\n');
 
