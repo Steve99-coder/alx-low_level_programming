@@ -1,20 +1,21 @@
 #include "main.h"
-
 /**
-* main - Print the word "_putchar"
-*
-* Return: Always 0 (Success)
-*/
+ * main - Entry point
+ * prints "_putchar" followed by a new line
+ * Return: 0
+ */
 
 int main(void)
 {
-	int i;
 	char p[] = "_putchar";
+	int i = 0;
 
-	for (i = 0; i < 9; i++)
-		{
+	while (p[i] != '\0')
+	{
 		_putchar(p[i]);
-		}
-		_putchar('\n');
+		i++;
+	}
+	_putchar('\n');
+
 	return (0);
 }
