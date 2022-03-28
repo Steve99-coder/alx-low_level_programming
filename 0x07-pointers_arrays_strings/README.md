@@ -4,7 +4,7 @@ Language: C89
 OS: Ubuntu 20.04 LTS
 Compiler: gcc 11.2.0
 Style guidelines: [Betty style] (https://github.com/holbertonschool/Betty/wiki)
-i
+
 ### Concepts
 What are pointers to pointers and how to use them
 What are multidimensional arrays and how to use them
