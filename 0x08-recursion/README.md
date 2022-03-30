@@ -1,9 +1,9 @@
 ## Recursion
 ### Requirements
-Language: C
-OS: Ubuntu 20.04 LTS
-Compiler: gcc 11.2.0
-Style guidelines: [Betty style] (https://github.com/holbertonschool/Betty/wiki)
+* Language: C
+* OS: Ubuntu 20.04 LTS
+* Compiler: gcc 11.2.0
+* Style guidelines: [Betty style] (https://github.com/holbertonschool/Betty/wiki)
 
 ### Concepts to be learned in this repository:
 what recursion is and how to use it
