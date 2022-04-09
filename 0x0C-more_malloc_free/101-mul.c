@@ -1,99 +1,98 @@
 #include "main.h"
-#include <stdlib.h>
 #include <stdio.h>
-#include <ctype.h>
+#include <stdlib.h>
+#include <string.h>
+/**
+* _isNum - check if is a number
+*@num: string to check
+*Return: 1 is numm, 0 not num
+*/
+int _isNum(char *num)
+{
+	int i;
+
+	for (i = 0; num[i] != '\0'; i++)
+	{
+		if (num[i] < '0' || num[i] > '9')
+			return (0);
+	}
+	return (1);
+}
 
 /**
- * _strlen - returns the length of a string
- * @s: char to check
- * Return: length
- */
+* *_memset - copies a character to the firstn characters of the string pointed
+*@s: original string
+*@b: value to remplace
+*@n: number of bytes
+*Return: s (string modify)
+*/
+char *_memset(char *s, char b, unsigned int n)
+{
+	unsigned int i;
 
+	for (i = 0; i < n; i++)
+		s[i] = b;
+	return (s);
+}
+
+/**
+* _strlen - returns the lenght of a string
+*@s: poiter of character
+*Return: the length of a string
+*/
 int _strlen(char *s)
 {
-	int count = 0;
+	int len;
 
-	while (*s)
-	{
-		s++;
-		count++;
-	}
-	return (count);
+	len = 0;
+	while (*(s + len) != '\0')
+		len++;
+	return (len);
 }
 
 /**
- * multiplier - multiply the strings and check ifdigits
- * @s1: 1st string to multiply
- * @s2: 2nd string to multiply
- * Return: result
- */
-
-char *multiplier(char *s1, char *s2) /* Courtesy of Arthur Damm */
-{
-	char *result;
-	int x, y, z, l1, l2, length;
-
-	l1 = _strlen(s1);
-	l2 = _strlen(s2);
-
-	result = malloc(_strlen(s1) + _strlen(s2));
-	if (result == 0)
-		printf("Error\n"), exit(98);
-	while (length--)
-		result[length] = 0;
-	for (l1--; l1 >= 0; l1--)
-	{
-		if (!isdigit(s1[l1]))
-		{
-			free(result);
-			printf("Error\n"), exit(98);
-		}
-		x = s1[l1] - '0';
-		z = 0;
-		for (l2--; l2 >= 0; l2--)
-		{
-			if (!isdigit(s2[l2]))
-			{
-				free(result);
-				printf("Error\n"), exit(98);
-			}
-			y = s2[l2] - '0';
-			z += result[l1 + l2 + 1] + (x * y);
-			result[l1 + l2 + 1] = z % 10;
-			z /= 10;
-		}
-		if (z)
-			result[l1 + l2 + 1] += z;
-	}
-	return (result);
-}
-
-/**
- * main - multiplies two positive numbers
- * @argc: first number
- * @argv: second number
- * Return: 0
- */
-
+* main - multiple 2 positive numbers
+*@argc: argument counter
+*@argv: number to multiply
+*Return: 0 (success)
+*/
 int main(int argc, char *argv[])
 {
-	int i, x, length = 0;
-	char *result;
+	int length, c, prod, i, j, l1, l2;
+	int *res;
 
-	if (argc != 3)
+	if ((argc != 3 || !(_isNum(argv[1]))) || !(_isNum(argv[2])))
+		puts("Error"), exit(98);
+	l1 = _strlen(argv[1]), l2 = _strlen(argv[2]);
+	length = l1 + l2;
+	res = calloc(length, sizeof(int *));
+	if (res == NULL)
+		puts("Error"), exit(98);
+	for (i = l2 - 1; i > -1; i--)
 	{
-		printf("Error\n"), exit(98);
+		c = 0;
+		for (j = l1; j > -1; j--)
+		{
+			prod = (argv[2][i] - '0') * (argv[1][j] - '0');
+			c = (prod / 10);
+			res[(i + j) + 1] += (prod % 10);
+			if (res[(i + j) + 1] > 9)
+			{
+				res[i + j] += res[(i + j) + 1] / 10;
+				res[(i + j) + 1] = res[(i + j) + 1] % 10;
+			}
+			res[(i + j) + 1] += c;
+		}
 	}
 
-	length = _strlen(argv[1]) + _strlen(argv[2]);
-	result = multiplier(argv[1], argv[2]);
-	x = 0;
-	for (i = 0; i < length; i++)
-	{
-		if (result[i])
-			x = 1;
-		if (x)
-			_putchar(result[i] + '0');
-	}
-	if (x == 0)
+	if (res[0] == 0)
+		i = 1;
+	else
+		i = 0;
+	for (; i < length; i++)
+		printf("%d", res[i]);
 
+	printf("\n");
+	free(res);
+	return (0);
+}
