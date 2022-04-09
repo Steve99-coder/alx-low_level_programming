@@ -1,67 +1,99 @@
-#include <stdlib.h>
 #include "main.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <ctype.h>
 
 /**
- * _puts - prints a string to the standard output
- * @str: a string
- *
+ * _strlen - returns the length of a string
+ * @s: char to check
+ * Return: length
+ */
+
+int _strlen(char *s)
+{
+	int count = 0;
+
+	while (*s)
+	{
+		s++;
+		count++;
+	}
+	return (count);
+}
+
+/**
+ * multiplier - multiply the strings and check ifdigits
+ * @s1: 1st string to multiply
+ * @s2: 2nd string to multiply
+ * Return: result
+ */
+
+char *multiplier(char *s1, char *s2) /* Courtesy of Arthur Damm */
+{
+	char *result;
+	int x, y, z, l1, l2, length;
+
+	l1 = _strlen(s1);
+	l2 = _strlen(s2);
+
+	result = malloc(_strlen(s1) + _strlen(s2));
+	if (result == 0)
+		printf("Error\n"), exit(98);
+	while (length--)
+		result[length] = 0;
+	for (l1--; l1 >= 0; l1--)
+	{
+		if (!isdigit(s1[l1]))
+		{
+			free(result);
+			printf("Error\n"), exit(98);
+		}
+		x = s1[l1] - '0';
+		z = 0;
+		for (l2--; l2 >= 0; l2--)
+		{
+			if (!isdigit(s2[l2]))
+			{
+				free(result);
+				printf("Error\n"), exit(98);
+			}
+			y = s2[l2] - '0';
+			z += result[l1 + l2 + 1] + (x * y);
+			result[l1 + l2 + 1] = z % 10;
+			z /= 10;
+		}
+		if (z)
+			result[l1 + l2 + 1] += z;
+	}
+	return (result);
+}
+
+/**
+ * main - multiplies two positive numbers
+ * @argc: first number
+ * @argv: second number
  * Return: 0
  */
 
-int _puts(const char *str)
+int main(int argc, char *argv[])
 {
-	while (*str)
-		_putchar(*str++);
-	return (1);
-}
-
-/**
- * main - prints the product of it's 2 arguments
- * @argc: argument count
- * @argv: arguments
- *
- * Return: 0 or 98
- */
-
-int main(int argc, char **argv)
-{
-	int len_1 = 0, len_2 = 0, len_r = 0, i, j, len_r_tmp, carry = 0, len_tmp;
-	char *s1, *s2, *s_tmp, *res, c1, c2, dig_1, dig_2, temp_res, t2 = 0, sig0 = 0;
+	int i, x, length = 0;
+	char *result;
 
 	if (argc != 3)
-		return (!!_puts("Error\n") * 98);
-	s1 = argv[1], s2 = argv[2];
-	for (; c1 = s1[len_1], c2 = s2[len_2], c1 || c2; len_1 += !!c1, len_2 += !!c2)
 	{
-		c1 = s1[len_1], c2 = s2[len_2];
-		if ((c1 && (c1 < '0' || c1 > '9')) || ((c2 && (c2 < '0' || c2 > '9'))))
-			return (_puts("Error\n"), 98);
+		printf("Error\n"), exit(98);
 	}
-	carry = 0, len_r = len_1 + len_2 + 1;
-	res = malloc(sizeof(char) * len_r--);
-	if (res == NULL)
-		return (_puts("Error\n"), 98);
-	len_r_tmp = len_r;
-	while (len_r_tmp > 0)
-		res[len_r_tmp--] = 0;
-	len_tmp = len_1, s_tmp = s1;
-	if (len_2 > len_1)
-		s1 = s2, s2 = s_tmp, len_1 = len_2, len_2 = len_tmp;
-	for (i = len_2 - 1; i >= 0; i--)
+
+	length = _strlen(argv[1]) + _strlen(argv[2]);
+	result = multiplier(argv[1], argv[2]);
+	x = 0;
+	for (i = 0; i < length; i++)
 	{
-		for (j = len_1 - 1; j >= 0; j--)
-		{
-			dig_1 = s1[j] - '0', dig_2 = s2[i] - '0';
-			temp_res = dig_1 * (dig_2) + carry;
-			t2 = (temp_res + res[i + j + 1]);
-			res[i + j + 1] = (t2 % 10), carry = t2 / 10;
-		}
-		res[i] += carry, carry = 0;
+		if (result[i])
+			x = 1;
+		if (x)
+			_putchar(result[i] + '0');
 	}
-	for (i = 0, sig0 = 0; i < len_r; i++, sig0 = sig0 || !!res[i])
-		if (res[i] || sig0 || i == len_r - 1)
-			_putchar(res[i] + '0');
-	_putchar('\n');
-	free(res);
-	return (0);
-}
+	if (x == 0)
+
