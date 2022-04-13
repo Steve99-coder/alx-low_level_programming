@@ -1,29 +1,30 @@
-#include <stdlib.h>
 #include <stdio.h>
-
+#include <string.h>
+#include <stdlib.h>
 /**
- *main - a
- *@argc: a
- *@argv: a
- *
- *Return: a
- */
+* main - number of bytes
+*@argc: argument counter
+*@argv: argument vector
+*Return: 0
+**/
+
 int main(int argc, char *argv[])
 {
-	int num_of_bytes;
+	int byte;
 
-	if (argc != 2)
+	if (argc < 2)
 	{
-		printf("Error");
+		printf("Error\n");
 		exit(1);
 	}
-	num_of_bytes = atoi(argv[1]);
-	if (num_of_bytes < 0)
+
+	byte = atoi(argv[1]);
+
+	if (byte < 0)
 	{
-		printf("Error");
+		printf("Error\n");
 		exit(2);
 	}
-        system("gcc 100-main_opcodes.c -c");
-	system("objdump -D 100-main_opcodes.o");
+
 	return (0);
 }
